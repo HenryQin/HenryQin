@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @HenryQin<br>
+- 👋 Hi, I’m @HenryQin
 
 fun: some practice code for cpp grama and cpp11 feature <br>
 some personal practice task in bazelpoj including: 
