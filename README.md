@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @HenryQin<br>
-fun: some practice code for cpp<br>
 
+fun: some practice code for cpp grama and cpp11 feature <br>
 some personal practice task in bazelpoj including: 
 1. using bazel to build cpp project
 2. distributed lock using redis
