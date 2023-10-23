@@ -1,0 +1,296 @@
+---
+Language:        Cpp
+# BasedOnStyle:  Google
+# 访问说明符的偏移(public private)，-4表示无空格
+AccessModifierOffset: -4
+# 参数换行对齐方式，如下argument2严格和argument1对齐
+# someLongFunction(argument1,
+#                  argument2);
+AlignAfterOpenBracket: Align
+# 连续多行宏定义是否对齐
+# #define abc “abc”
+# #define abcde "abcde"
+AlignConsecutiveMacros: false
+# 连续多行赋值是否对齐
+# int aaaa = 12;
+# int b = 23;
+# int ccc = 23;
+AlignConsecutiveAssignments: false
+# 连续多行声明是否对齐
+# int aaaa = 12;
+# float b = 23;
+# std::string ccc = 23;
+AlignConsecutiveDeclarations: false
+# 多行define时"\"的对齐方式
+# #define A \
+# int aaaa; \
+# int b;    \
+# int dddddddddd;
+AlignEscapedNewlines: Left
+# 操作数的对齐方式
+# int aaa = bbbbbbbbbbbbbbb +
+#           ccccccccccccccc;
+AlignOperands:   true
+# 行尾注释对齐
+# int a;     // My comment a
+# int b = 2; // comment  b
+AlignTrailingComments: true
+# 函数调用时，是否允许所有参数直接放到下一行
+# true:
+# callFunction(
+#     a, b, c, d);
+# false:
+# callFunction(a,
+#              b,
+#              c,
+#              d);
+AllowAllArgumentsOnNextLine: true
+# 构造函数初始化列表是否允许直接放在下一行
+AllowAllConstructorInitializersOnNextLine: true
+# 函数声明时，是否允许所有参数直接放到下一行
+AllowAllParametersOfDeclarationOnNextLine: true
+# 是否允许简短的代码块放在同一行
+AllowShortBlocksOnASingleLine: Never
+# 是否允许case的代码放在同一行
+AllowShortCaseLabelsOnASingleLine: false
+# 是否允许简短的函数定义放在同一行
+AllowShortFunctionsOnASingleLine: All
+# 是否允许简短的lambda表达式放在同一行
+AllowShortLambdasOnASingleLine: All
+# 是否允许if判断式放在同一行
+AllowShortIfStatementsOnASingleLine: WithoutElse
+# 是否允许循环逻辑放在同一行
+AllowShortLoopsOnASingleLine: true
+# deprecated
+AlwaysBreakAfterDefinitionReturnType: None
+# 函数声明定义时返回类型是否独占一行
+AlwaysBreakAfterReturnType: None
+# 多行字符串时是否采用多行样式
+# true:                                  false:
+# aaaa =                         vs.     aaaa = "bbbb"
+#     "bbbb"                                    "cccc";
+#     "cccc";
+AlwaysBreakBeforeMultilineStrings: true
+# 模版定义时是否断行
+# template <typename T>
+# T foo()
+# {
+# }
+# template <typename T>
+# T foo(int aaaaaaaaaaaaaaaaaaaaa,
+#       int bbbbbbbbbbbbbbbbbbbbb)
+# {
+# }
+AlwaysBreakTemplateDeclarations: Yes
+# 调用函数时，参数可以多行任意组合
+BinPackArguments: true
+# 函数声明定义时，参数可以多行任意组合
+BinPackParameters: true
+# 哪些大括号要断行
+BraceWrapping:
+  AfterCaseLabel:  true
+  AfterClass:      true
+  AfterControlStatement: true
+  AfterEnum:       true
+  AfterFunction:   true
+  AfterNamespace:  false
+  AfterObjCDeclaration: true
+  AfterStruct:     true
+  AfterUnion:      true
+  AfterExternBlock: true
+  BeforeCatch:     true
+  BeforeElse:      true
+  IndentBraces:    false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+# 逻辑运算的对齐方式，Node则运算符右对齐
+BreakBeforeBinaryOperators: None
+# 生效BraceWrapping
+BreakBeforeBraces: Custom
+# 继承是否断行
+# true:                                  false:
+# class MyClass                  vs.     class MyClass : public X, public Y {
+#     : public X                         };
+#     , public Y {
+# };
+BreakBeforeInheritanceComma: false
+# class Foo
+#     : Base1,
+#       Base2
+# {};
+BreakInheritanceList: BeforeColon
+# 三元运算时如果要断行怎么断
+BreakBeforeTernaryOperators: true
+# 构造函数初始化列表怎么断行
+BreakConstructorInitializersBeforeComma: false
+BreakConstructorInitializers: BeforeColon
+BreakAfterJavaFieldAnnotations: false
+# 太长的字符串是否允许断行
+BreakStringLiterals: true
+# 单行最多含多少个字符
+ColumnLimit:     80
+# 描述具有特殊意义的注释的正则表达式，它不应该被分割为多行或以其它方式改变
+CommentPragmas:  '^ IWYU pragma:'
+# 连续多个namespace声明时是否放在单行
+CompactNamespaces: false
+# 构造函数初始化列表在一行放不下时则每个放一行
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+# 构造函数初始化列表缩进
+ConstructorInitializerIndentWidth: 4
+# 连续语句断行时的缩进
+ContinuationIndentWidth: 4
+# 大括号列表开始和结束不加空格
+Cpp11BracedListStyle: true
+# 推导文件是用什么结尾的\r\n or \n
+DeriveLineEnding: true
+# 推到*和&与变量是否有空格这些
+DerivePointerAlignment: false
+# 开启格式化
+DisableFormat:   false
+# 推导函数调用和函数定义时参数书写的方式
+ExperimentalAutoDetectBinPacking: false
+# 追加namespace注释
+FixNamespaceComments: true
+# 哪些是foreach调用而不是普通函数调用
+ForEachMacros:
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
+# #include时使用<>和""的声明分类排序
+IncludeBlocks:   Regroup
+IncludeCategories:
+  - Regex:           '^<ext/.*\.h>'
+    Priority:        2
+    SortPriority:    0
+  - Regex:           '^<.*\.h>'
+    Priority:        1
+    SortPriority:    0
+  - Regex:           '^<.*'
+    Priority:        2
+    SortPriority:    0
+  - Regex:           '.*'
+    Priority:        3
+    SortPriority:    0
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+IncludeIsMainSourceRegex: ''
+# switch/case的时候case是否要缩进
+IndentCaseLabels: true
+# goto的label是否缩进
+IndentGotoLabels: true
+# 预处理指令（#if#else）是否要缩进
+IndentPPDirectives: None
+# 缩进宽度
+IndentWidth:     4
+# 返回类型和函数名之间断行是否需要缩进
+IndentWrappedFunctionNames: false
+JavaScriptQuotes: Leave
+JavaScriptWrapImports: true
+# 函数定义体内首行表达式要不要空一行
+KeepEmptyLinesAtTheStartOfBlocks: false
+MacroBlockBegin: ''
+MacroBlockEnd:   ''
+# 空行最多只能有一行
+MaxEmptyLinesToKeep: 1
+# namespace内是否需要缩进
+NamespaceIndentation: None
+ObjCBinPackProtocolList: Never
+ObjCBlockIndentWidth: 2
+ObjCSpaceAfterProperty: false
+ObjCSpaceBeforeProtocolList: true
+# 一般写代码是不希望断行的，那么断行要有个惩罚机制，Penalty越大则越不喜欢端
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 1
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyBreakTemplateDeclaration: 10
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 200
+# int *a 或者 int* a;， Right表示前者
+PointerAlignment: Right
+# 定义用于检测原始字符串中支持的语言代码块的提示
+RawStringFormats:
+  - Language:        Cpp
+    Delimiters:
+      - cc
+      - CC
+      - cpp
+      - Cpp
+      - CPP
+      - 'c++'
+      - 'C++'
+    CanonicalDelimiter: ''
+    BasedOnStyle:    google
+  - Language:        TextProto
+    Delimiters:
+      - pb
+      - PB
+      - proto
+      - PROTO
+    EnclosingFunctions:
+      - EqualsProto
+      - EquivToProto
+      - PARSE_PARTIAL_TEXT_PROTO
+      - PARSE_TEST_PROTO
+      - PARSE_TEXT_PROTO
+      - ParseTextOrDie
+      - ParseTextProtoOrDie
+    CanonicalDelimiter: ''
+    BasedOnStyle:    google
+# 注释太长是否需要断行
+ReflowComments:  true
+# include文件是否排序
+SortIncludes:    true
+# using声明排序
+SortUsingDeclarations: true
+# 类型强制转换时是否加空格
+SpaceAfterCStyleCast: false
+# 逻辑非!是否加空格
+SpaceAfterLogicalNot: false
+# template关键字之后是否加空格
+SpaceAfterTemplateKeyword: true
+# 赋值号前面是否加空格
+SpaceBeforeAssignmentOperators: true
+# {}参数列表前是否加空格
+SpaceBeforeCpp11BracedList: false
+# 构造函数初始化列表的冒号前是否加空格
+SpaceBeforeCtorInitializerColon: true
+# 类继承冒号前面要不要加空格
+SpaceBeforeInheritanceColon: true
+# 在控制语句（if/while）后加空格
+# void f() {
+#   if (true) {
+#     f();
+#   }
+# }
+SpaceBeforeParens: ControlStatements
+# for后面加空格
+SpaceBeforeRangeBasedForLoopColon: true
+# 空代码块{}里是否加空格
+SpaceInEmptyBlock: false
+# 空()里是否加空格
+SpaceInEmptyParentheses: false
+# 注释//前加多少个空格
+SpacesBeforeTrailingComments: 2
+# <>里首末是否加空格
+SpacesInAngles:  false
+# ()里首末是否加空格
+SpacesInConditionalStatement: false
+SpacesInContainerLiterals: true
+# 强制类型转换()里的首末要不要加空格
+SpacesInCStyleCastParentheses: false
+# 函数参数的()里的首末要不要加空格
+SpacesInParentheses: false
+# 中括号[]里的首末要不要加空格
+SpacesInSquareBrackets: false
+# 中括号[]和变量之间要不要加空格
+SpaceBeforeSquareBrackets: false
+Standard:        Auto
+StatementMacros:
+  - Q_UNUSED
+  - QT_REQUIRE_VERSION
+TabWidth:        4
+UseCRLF:         false
+UseTab:          Never
+...
