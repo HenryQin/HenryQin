@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+package addressbook;
+
+message  MyAddress{
+  optional string city = 1;
+  optional string area = 2;
+  optional string address = 3;
+}

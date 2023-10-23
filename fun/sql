@@ -1,0 +1,247 @@
+
+INSERT overwrite TABLE wxg_cityservice_db::dwmid_mmbizindustrybi_category_thirdplat_top100_info partition(ds=20191220)
+(
+    d2d_var_app_count,
+    d2d_ratio_app_count,
+    d2d_var_wxapp_count,
+    d2d_ratio_wxapp_count,
+    d2d_var_bizapp_count,
+    d2d_ratio_bizapp_count,
+    d2d_var_dau_total,
+    d2d_ratio_dau_total,
+    d2d_var_dau_wxapp,
+    d2d_ratio_dau_wxapp,
+    d2d_var_dau_bizapp,
+    d2d_ratio_dau_bizapp,
+    d2d_var_pay_uv,
+    d2d_ratio_pay_uv,
+    d2d_var_pay_pv,
+    d2d_ratio_pay_pv,
+    d2d_var_pay_amount,
+    d2d_ratio_pay_amount,
+    ds,
+    first_category_id,
+    second_category_id,
+    thirduin,
+    thirdname,
+    app_count,
+    app_count_inc_1d,
+    wxapp_count,
+    wxapp_count_inc_1d,
+    bizapp_count,
+    bizapp_count_inc_1d,
+    dau_total,
+    dau_total_rate,
+    dau_wxapp,
+    dau_wxapp_rate,
+    dau_bizapp,
+    dau_bizapp_rate,
+    pay_uv,
+    pay_uv_rate,
+    pay_pv,
+    pay_pv_rate,
+    pay_amount,
+    pay_amount_rate,
+    rank_index,
+    rank_type,
+    sort_in_all
+)
+SELECT 
+    if (table_app_count.rank_app_count < 5, variance.d2d_var_app_count, NULL),
+    if (table_app_count.rank_app_count < 5, variance.d2d_ratio_app_count, NULL),
+    if (table_wxapp_count.rank_wxapp_count < 5, variance.d2d_var_wxapp_count, NULL),
+    if (table_wxapp_count.rank_wxapp_count < 5, variance.d2d_ratio_wxapp_count, NULL),
+    if (table_bizapp_count.rank_bizapp_count < 5, variance.d2d_var_bizapp_count, NULL),
+    if (table_bizapp_count.rank_bizapp_count < 5, variance.d2d_ratio_bizapp_count, NULL),
+    if (table_dau_total.rank_dau_total < 5, variance.d2d_var_dau_total, NULL),
+    if (table_dau_total.rank_dau_total < 5, variance.d2d_ratio_dau_total, NULL),
+    if (table_dau_wxapp.rank_dau_wxapp < 5, variance.d2d_var_dau_wxapp, NULL),
+    if (table_dau_wxapp.rank_dau_wxapp < 5, variance.d2d_ratio_dau_wxapp, NULL),
+    if (table_dau_bizapp.rank_dau_bizapp < 5, variance.d2d_var_dau_bizapp, NULL),
+    if (table_dau_bizapp.rank_dau_bizapp < 5, variance.d2d_ratio_dau_bizapp, NULL),
+    if (table_pay_uv.rank_pay_uv < 5, variance.d2d_var_pay_uv, NULL),
+    if (table_pay_uv.rank_pay_uv < 5, variance.d2d_ratio_pay_uv, NULL),
+    if (table_pay_pv.rank_pay_pv < 5, variance.d2d_var_pay_pv, NULL),
+    if (table_pay_pv.rank_pay_pv < 5, variance.d2d_ratio_pay_pv, NULL),
+    if (table_pay_amount.rank_pay_amount < 5, variance.d2d_var_pay_amount, NULL),
+    if (table_pay_amount.rank_pay_amount < 5, variance.d2d_ratio_pay_amount, NULL),
+    base.ds,
+    base.first_category_id,
+    base.second_category_id,
+    base.thirduin,
+    base.thirdname,
+    base.app_count,
+    base.app_count_inc_1d,
+    base.wxapp_count,
+    base.wxapp_count_inc_1d,
+    base.bizapp_count,
+    base.bizapp_count_inc_1d,
+    base.dau_total,
+    base.dau_total_rate,
+    base.dau_wxapp,
+    base.dau_wxapp_rate,
+    base.dau_bizapp,
+    base.dau_bizapp_rate,
+    base.pay_uv,
+    base.pay_uv_rate,
+    base.pay_pv,
+    base.pay_pv_rate,
+    base.pay_amount,
+    base.pay_amount_rate,
+    base.rank_index,
+    base.rank_type,
+    base.sort_in_all  
+FROM 
+    
+(
+    select * FROM
+    wxg_cityservice_db::dwmid_mmbizindustrybi_category_thirdplat_top100_info partition(p_20191220) p
+    where ds = '20191220'
+) base
+left join
+(
+    select * FROM
+    wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds = '20191220'
+) variance
+on (
+    base.thirduin = variance.thirduin
+    AND base.first_category_id = variance.first_category_id
+    AND base.second_category_id = variance.second_category_id
+)
+left join 
+(
+    select ds, first_category_id, second_category_id, thirduin,
+    row_number() over
+    (
+        partition by ds, first_category_id, second_category_id 
+        order by d2d_ratio_app_count desc 
+    ) rank_app_count
+    from wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds='20191220' and d2d_var_app_count > 1
+) table_app_count 
+on 
+(   variance.first_category_id = table_app_count.first_category_id 
+    and variance.second_category_id = table_app_count.second_category_id
+    and variance.thirduin = table_app_count.thirduin 
+)left join 
+(
+    select ds, first_category_id, second_category_id, thirduin,
+    row_number() over
+    (
+        partition by ds, first_category_id, second_category_id 
+        order by d2d_ratio_wxapp_count desc 
+    ) rank_wxapp_count
+    from wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds='20191220' and d2d_var_wxapp_count > 1
+) table_wxapp_count 
+on 
+(   variance.first_category_id = table_wxapp_count.first_category_id 
+    and variance.second_category_id = table_wxapp_count.second_category_id
+    and variance.thirduin = table_wxapp_count.thirduin 
+)left join 
+(
+    select ds, first_category_id, second_category_id, thirduin,
+    row_number() over
+    (
+        partition by ds, first_category_id, second_category_id 
+        order by d2d_ratio_bizapp_count desc 
+    ) rank_bizapp_count
+    from wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds='20191220' and d2d_var_bizapp_count > 1
+) table_bizapp_count 
+on 
+(   variance.first_category_id = table_bizapp_count.first_category_id 
+    and variance.second_category_id = table_bizapp_count.second_category_id
+    and variance.thirduin = table_bizapp_count.thirduin 
+)left join 
+(
+    select ds, first_category_id, second_category_id, thirduin,
+    row_number() over
+    (
+        partition by ds, first_category_id, second_category_id 
+        order by d2d_ratio_dau_total desc 
+    ) rank_dau_total
+    from wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds='20191220' and d2d_var_dau_total > 1000
+) table_dau_total 
+on 
+(   variance.first_category_id = table_dau_total.first_category_id 
+    and variance.second_category_id = table_dau_total.second_category_id
+    and variance.thirduin = table_dau_total.thirduin 
+)left join 
+(
+    select ds, first_category_id, second_category_id, thirduin,
+    row_number() over
+    (
+        partition by ds, first_category_id, second_category_id 
+        order by d2d_ratio_dau_wxapp desc 
+    ) rank_dau_wxapp
+    from wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds='20191220' and d2d_var_dau_wxapp > 1000
+) table_dau_wxapp 
+on 
+(   variance.first_category_id = table_dau_wxapp.first_category_id 
+    and variance.second_category_id = table_dau_wxapp.second_category_id
+    and variance.thirduin = table_dau_wxapp.thirduin 
+)left join 
+(
+    select ds, first_category_id, second_category_id, thirduin,
+    row_number() over
+    (
+        partition by ds, first_category_id, second_category_id 
+        order by d2d_ratio_dau_bizapp desc 
+    ) rank_dau_bizapp
+    from wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds='20191220' and d2d_var_dau_bizapp > 1000
+) table_dau_bizapp 
+on 
+(   variance.first_category_id = table_dau_bizapp.first_category_id 
+    and variance.second_category_id = table_dau_bizapp.second_category_id
+    and variance.thirduin = table_dau_bizapp.thirduin 
+)left join 
+(
+    select ds, first_category_id, second_category_id, thirduin,
+    row_number() over
+    (
+        partition by ds, first_category_id, second_category_id 
+        order by d2d_ratio_pay_uv desc 
+    ) rank_pay_uv
+    from wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds='20191220' and d2d_var_pay_uv > 1000
+) table_pay_uv 
+on 
+(   variance.first_category_id = table_pay_uv.first_category_id 
+    and variance.second_category_id = table_pay_uv.second_category_id
+    and variance.thirduin = table_pay_uv.thirduin 
+)left join 
+(
+    select ds, first_category_id, second_category_id, thirduin,
+    row_number() over
+    (
+        partition by ds, first_category_id, second_category_id 
+        order by d2d_ratio_pay_pv desc 
+    ) rank_pay_pv
+    from wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds='20191220' and d2d_var_pay_pv > 1000
+) table_pay_pv 
+on 
+(   variance.first_category_id = table_pay_pv.first_category_id 
+    and variance.second_category_id = table_pay_pv.second_category_id
+    and variance.thirduin = table_pay_pv.thirduin 
+)left join 
+(
+    select ds, first_category_id, second_category_id, thirduin,
+    row_number() over
+    (
+        partition by ds, first_category_id, second_category_id 
+        order by d2d_ratio_pay_amount desc 
+    ) rank_pay_amount
+    from wxg_cityservice_db::calc_tmp_mmbizindustrybi_thirdplat_top100_variance partition(p_20191220) p
+    where ds='20191220' and d2d_var_pay_amount > 1000
+) table_pay_amount 
+on 
+(   variance.first_category_id = table_pay_amount.first_category_id 
+    and variance.second_category_id = table_pay_amount.second_category_id
+    and variance.thirduin = table_pay_amount.thirduin 
+)
