@@ -10,7 +10,6 @@
  */
 #include "db/redisapi.h"
 #include "db/redlock.h"
-#include "proto/addressbook.pb.h"
 #include <cstdio>
 #include <iostream>
 #include <sstream>
@@ -18,6 +17,7 @@
 #include <thread>
 #include <tuple>
 #include <unistd.h>
+#include "proto/addressbook.pb.h"
 using namespace std;
 
 string GetThreadId() {
@@ -50,23 +50,22 @@ void TestThread() {
 
 int main() {
   RedisApi redisApi;
+  addressbook::MyAddress address;
+  address.set_address("侨鑫汇悦台");
+  address.set_area("天河区");
+  address.set_city("广州市");
+  
+  std::string pbstr = address.Utf8DebugString();
+  cout<< pbstr<<endl;
 
-  // addressbook::MyAddress address;
-  // address.set_address("侨鑫汇悦台");
-  // address.set_area("天河区");
-  // address.set_city("广州市");
+  const std::string homekey = "homekey";
 
-  // std::string pbstr = address.Utf8DebugString();
-  // cout<< pbstr<<endl;
-
-  // const std::string homekey = "homekey";
-
-  // redisApi.Set(homekey, address.SerializeAsString());
-  // std::string tmpstr;
-  // redisApi.Get(homekey, tmpstr);
-  // addressbook::MyAddress tmpAddr;
-  // tmpAddr.ParseFromString(tmpstr);
-  // cout<< tmpAddr.Utf8DebugString()<<endl;
+  redisApi.Set(homekey, address.SerializeAsString());
+  std::string tmpstr;
+  redisApi.Get(homekey, tmpstr);
+  addressbook::MyAddress tmpAddr;
+  tmpAddr.ParseFromString(tmpstr);
+  cout<< tmpAddr.Utf8DebugString()<<endl;
   static string lock_key = "helloworld";
   RedLock lock(lock_key, 10);
   if (lock.Lock()) {
@@ -83,6 +82,7 @@ int main() {
     printf("unlock succ\n");
   } else {
     printf("unlock fail\n");
+
   };
   // const std::string lua_script = "return redis.call('SET', KEYS[1], ARGV[1],
   // 'EX', 30)"; std::tuple<std::string, std::string> tp("TEST", "WORD");

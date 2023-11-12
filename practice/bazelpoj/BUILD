@@ -8,8 +8,7 @@ cc_binary(
         "//db:redlock",
         "//proto:addressbook_cc_proto",
     ],
-    copts = ["--std=c++11", "-lpthread"],
-    linkopts = [],
+    copts = ["--std=c++11", "-lpthread"]
 )
 
 cc_binary(

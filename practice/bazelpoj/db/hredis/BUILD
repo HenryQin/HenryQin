@@ -4,7 +4,8 @@ cc_import(
       name = "hredis",
       hdrs = glob(["include/*.h", "include/adapters/*.h"]),
       static_library = "lib/libhiredis.a",
-      visibility = ["//visibility:public"]
+      visibility = ["//visibility:public"],
+      linkopts = ["-fPIC"]
 )
 
 cc_library(

@@ -6,7 +6,7 @@ cc_library(
     srcs = ["redisapi.cpp"],
     hdrs = ["redisapi.h"],
     deps = ["//db/hredis:hredis"],
-    copts = ['-std=c++11'],
+    copts = ['-std=c++11', "-fPIC"],
     visibility = ["//visibility:public"],
     linkstatic = 1
 )
@@ -17,6 +17,6 @@ cc_library(
     hdrs = ["redlock.h"],
     deps = [":redisapi"],
     includes = ["."],
-    copts = ['-std=c++11', "-lpthread"],
+    copts = ['-std=c++11', "-lpthread", "-fPIC"],
     visibility = ["//visibility:public"]
 )
