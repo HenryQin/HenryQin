@@ -166,7 +166,7 @@ int RedisApi :: Get(const std::string & key, std::string & value)
 {
   value.clear();
   size_t buff_size = key.length() + 128;
-  std::shared_ptr<char> buff(new char[buff_size]);
+  std::shared_ptr<char> buff = std::make_shared<char>(buff_size);
   snprintf(buff.get(), buff_size, "get %s", key.c_str());
   int ret = CheckConnect();
   if(ret) return ret;
@@ -223,7 +223,7 @@ int RedisApi :: Del(const std::string &key)
   if(ret) return ret;
   
   uint32_t buff_size = key.size() + 64;
-  std::shared_ptr<char> buff(new char[buff_size]);
+  std::shared_ptr<char> buff = std::make_shared<char>(buff_size);
   snprintf(buff.get(), buff_size, "del %s", key.c_str());
   std::string command(buff.get());
   auto resp = RedisCommand(ptr_ctx_, command.c_str());
